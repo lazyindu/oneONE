@@ -66,7 +66,7 @@
 #     LazyPrincessBot.username = '@' + me.username
 #     app = web.AppRunner(await web_server())
 #     await app.setup()
-#     bind_address = "0.0.0.0" if ON_HEROKU else BIND_ADRESS
+#     bind_address = "0.0.0.0" if ON_HEROKU else BIND_ADDRESS
 #     await web.TCPSite(app, bind_address, PORT).start()
 #     logging.info(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
 #     logging.info(LOG_STR)

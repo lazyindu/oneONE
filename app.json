@@ -90,7 +90,7 @@
             "value": "True",
             "required": false
         },
-        "BIND_ADRESS": {
+        "BIND_ADDRESS": {
             "description": "Read the readme for more info about this var  Leave Empty  For heroku",
             "required": false
         },
