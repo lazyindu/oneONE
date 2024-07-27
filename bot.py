@@ -109,6 +109,7 @@ logging.getLogger("aiohttp.web").setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 PORT = "8080"
+loop = asyncio.get_event_loop()
 
 async def Lazy_start():
     print('\n')
@@ -150,7 +151,6 @@ async def Lazy_start():
 
 if __name__ == '__main__':
     try:
-        loop = asyncio.get_event_loop()
         loop.run_until_complete(Lazy_start())
         logging.info('-----------------------🧐 Service running in Lazy Mode 😴-----------------------')
     except KeyboardInterrupt:
