@@ -80,7 +80,6 @@
 #         logging.info('-----------------------😜 Service Stopped Sweetheart 😝-----------------------')
 
 import logging
-import logging.config
 import os
 import asyncio
 from pyrogram import Client, __version__, idle
@@ -91,10 +90,8 @@ from database.users_chats_db import db
 from info import DOWNLOAD_LOCATION, BIND_ADDRESS, ON_HEROKU, LOG_STR
 from utils import temp
 from plugins import web_server
-from lazybot import LazyPrincessBot
 from util.keepalive import ping_server
-from lazybot.clients import initialize_clients
-
+from info import *
 # Set up logging configurations
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
@@ -108,21 +105,26 @@ logging.getLogger("aiohttp").setLevel(logging.ERROR)
 logging.getLogger("aiohttp.web").setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-PORT = "8080"
-
-async def Lazy_start():
+async def start_bot():
     print('\n')
     print('Initializing Telegram Bot')
-    # Start the main bot client
-    await LazyPrincessBot.start()
+
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
-    
-    bot_info = await LazyPrincessBot.get_me()
-    LazyPrincessBot.username = bot_info.username
 
-    # Initialize additional clients
-    await initialize_clients()
+    bot_client = Client(
+        "bot_session",
+        api_id=API_ID,
+        api_hash=API_HASH,
+        bot_token=BOT_TOKEN,
+        sleep_threshold=60,
+        no_updates=True,
+        in_memory=True
+    )
+
+    await bot_client.start()
+    bot_info = await bot_client.get_me()
+    bot_client.username = bot_info.username
 
     if ON_HEROKU:
         asyncio.create_task(ping_server())
@@ -133,11 +135,11 @@ async def Lazy_start():
     temp.LAZY_VERIFIED_CHATS = lz_verified
     await Media.ensure_indexes()
 
-    me = await LazyPrincessBot.get_me()
+    me = await bot_client.get_me()
     temp.ME = me.id
     temp.U_NAME = me.username
     temp.B_NAME = me.first_name
-    LazyPrincessBot.username = '@' + me.username
+    bot_client.username = '@' + me.username
 
     # Set up the web server
     app = web.AppRunner(await web_server())
@@ -152,7 +154,7 @@ async def Lazy_start():
 if __name__ == '__main__':
     try:
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(Lazy_start())
+        loop.run_until_complete(start_bot())
         logging.info('-----------------------🧐 Service running in Lazy Mode 😴-----------------------')
     except KeyboardInterrupt:
         logging.info('-----------------------😜 Service Stopped Sweetheart 😝-----------------------')
