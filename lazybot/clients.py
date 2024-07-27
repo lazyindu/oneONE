@@ -35,12 +35,3 @@ async def initialize_clients():
         print("Multi-Client Mode Enabled")
     else:
         print("No additional clients were initialized, using default client")
-
-if __name__ == "__main__":
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError as e:
-        if str(e) == "There is no current event loop in thread 'MainThread'.":
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-    loop.run_until_complete(initialize_clients())
