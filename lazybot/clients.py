@@ -58,18 +58,14 @@ import asyncio
 import logging
 from info import API_ID, API_HASH, BOT_TOKEN
 from pyrogram import Client
-from . import multi_clients, work_loads, LazyPrincessBot
+from . import multi_clients, work_loads
 
 async def initialize_clients():
     logging.info("Initializing Clients")
-    multi_clients[0] = LazyPrincessBot
-    work_loads[0] = 0
-
     all_tokens = {i: token for i, token in enumerate(BOT_TOKEN)}
-    logging.info(f"Found tokens: {all_tokens}")
 
     if not all_tokens:
-        logging.warning("No additional clients found, using default client")
+        logging.warning("No bot tokens found.")
         return
 
     async def start_client(client_id, token):
