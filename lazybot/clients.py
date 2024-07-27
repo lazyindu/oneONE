@@ -13,6 +13,10 @@ from pyrogram import Client
 from util.config_parser import TokenParser
 from . import multi_clients, work_loads, LazyPrincessBot
 
+class TokenParser:
+    def parse_from_env(self):
+        tokens = BOT_TOKEN
+        return {i: token for i, token in enumerate(tokens)}
 
 async def initialize_clients():
     multi_clients[0] = LazyPrincessBot
