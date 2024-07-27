@@ -50,3 +50,4 @@ class LazyPrincessXBot(Client):
 
 multi_clients = {}
 work_loads = {}
+LazyPrincessBot = LazyPrincessXBot()
