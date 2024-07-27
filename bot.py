@@ -109,12 +109,12 @@ logging.getLogger("aiohttp.web").setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 PORT = "8080"
-loop = asyncio.get_event_loop()
 
 async def Lazy_start():
     print('\n')
     print('Initializing Telegram Bot')
-    
+    # Start the main bot client
+    await LazyPrincessBot.start()
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
     
@@ -151,6 +151,7 @@ async def Lazy_start():
 
 if __name__ == '__main__':
     try:
+        loop = asyncio.get_event_loop()
         loop.run_until_complete(Lazy_start())
         logging.info('-----------------------🧐 Service running in Lazy Mode 😴-----------------------')
     except KeyboardInterrupt:
