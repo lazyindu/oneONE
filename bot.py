@@ -75,48 +75,47 @@ async def Lazy_start():
     await idle()
 
 async def promote_bot_to_admin(channel_id):
-    async with LazyPrincessBot:
-        bot_info = await LazyPrincessBot.get_me()
-        result = await LazyPrincessBot.invoke(
-            functions.channels.EditAdmin(
-                channel=channel_id,
-                user_id=bot_info.id,
-                admin_rights=types.ChatAdminRights(
-                    change_info=True,
-                    post_messages=True,
-                    edit_messages=True,
-                    delete_messages=True,
-                    ban_users=True,
-                    invite_users=True,
-                    pin_messages=True,
-                    add_admins=False,
-                ),
-                rank="Admin"
-            )
+    # async with LazyPrincessBot:
+    bot_info = await LazyPrincessBot.get_me()
+    result = await LazyPrincessBot.invoke(
+        functions.channels.EditAdmin(
+            channel=channel_id,
+            user_id=bot_info.id,
+            admin_rights=types.ChatAdminRights(
+                change_info=True,
+                post_messages=True,
+                edit_messages=True,
+                delete_messages=True,
+                ban_users=True,
+                invite_users=True,
+                pin_messages=True,
+                add_admins=False,
+            ),
+            rank="Admin"
         )
-        print(f'Bot promoted to admin: {result}')
+    )
+    print(f'Bot promoted to admin: {result}')
 
 async def create_lazy_channel():
-    async with LazyPrincessBot:
-        result = await LazyPrincessBot.invoke(
-            functions.channels.CreateChannel(
-                title="lazyChannel",
-                about="Thanks for your contribution",
-                megagroup=False
-            )
+    # async with LazyPrincessBot:
+    result = await LazyPrincessBot.invoke(
+        functions.channels.CreateChannel(
+            title="lazyChannel",
+            about="Thanks for your contribution",
+            megagroup=False
         )
-        print(f"Channel created: {result}")
-        return result
-    
+    )
+    print(f"Channel created: {result}")
+    return result
 
 async def delete_lazy_channel(channel_id):
-    async with LazyPrincessBot:
-        result =  await LazyPrincessBot.invoke(
-            functions.channels.DeleteChannel(
-                channel=channel_id
-            )
+    # async with LazyPrincessBot:
+    result =  await LazyPrincessBot.invoke(
+        functions.channels.DeleteChannel(
+            channel=channel_id
         )
-        print(f'channel deleted successfully : {result}')
+    )
+    print(f'channel deleted successfully : {result}')
 
 if __name__ == '__main__':
     try:
