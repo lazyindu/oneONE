@@ -10,8 +10,9 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import *
 #5 => verification_steps ! [Youtube@LazyDeveloperr]
-from utils import promote_bot_to_admin, create_lazy_channel,delete_lazy_channel,check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
+from utils import check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
+from bot import create_lazy_channel,promote_bot_to_admin,delete_lazy_channel
 import pytz
 import datetime
 from utils import get_seconds, get_tutorial, get_shortlink

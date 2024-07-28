@@ -603,50 +603,50 @@ async def check_verification(bot, userid):
     else:
         return False
 
-app = Client(name=SESSION, api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
-async def promote_bot_to_admin(channel_id):
-    async with app:
-        bot_info = await app.get_me()
-        result = await app.invoke(
-            functions.channels.EditAdmin(
-                channel=channel_id,
-                user_id=bot_info.id,
-                admin_rights=types.ChatAdminRights(
-                    change_info=True,
-                    post_messages=True,
-                    edit_messages=True,
-                    delete_messages=True,
-                    ban_users=True,
-                    invite_users=True,
-                    pin_messages=True,
-                    add_admins=False,
-                ),
-                rank="Admin"
-            )
-        )
-        print(f'Bot promoted to admin: {result}')
+# app = Client(name=SESSION, api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+# async def promote_bot_to_admin(channel_id):
+#     async with app:
+#         bot_info = await app.get_me()
+#         result = await app.invoke(
+#             functions.channels.EditAdmin(
+#                 channel=channel_id,
+#                 user_id=bot_info.id,
+#                 admin_rights=types.ChatAdminRights(
+#                     change_info=True,
+#                     post_messages=True,
+#                     edit_messages=True,
+#                     delete_messages=True,
+#                     ban_users=True,
+#                     invite_users=True,
+#                     pin_messages=True,
+#                     add_admins=False,
+#                 ),
+#                 rank="Admin"
+#             )
+#         )
+#         print(f'Bot promoted to admin: {result}')
 
-async def create_lazy_channel():
-    async with app:
-        result = await app.invoke(
-            functions.channels.CreateChannel(
-                title="lazyChannel",
-                about="Thanks for your contribution",
-                megagroup=False
-            )
-        )
-        print(f"Channel created: {result}")
-        return result
+# async def create_lazy_channel():
+#     async with app:
+#         result = await app.invoke(
+#             functions.channels.CreateChannel(
+#                 title="lazyChannel",
+#                 about="Thanks for your contribution",
+#                 megagroup=False
+#             )
+#         )
+#         print(f"Channel created: {result}")
+#         return result
     
 
-async def delete_lazy_channel(channel_id):
-    async with app:
-        result =  await app.invoke(
-            functions.channels.DeleteChannel(
-                channel=channel_id
-            )
-        )
-        print(f'channel deleted successfully : {result}')
+# async def delete_lazy_channel(channel_id):
+#     async with app:
+#         result =  await app.invoke(
+#             functions.channels.DeleteChannel(
+#                 channel=channel_id
+#             )
+#         )
+#         print(f'channel deleted successfully : {result}')
 
 # Credit @LazyDeveloper.
 # Please Don't remove credit.
