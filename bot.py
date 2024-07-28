@@ -104,57 +104,53 @@ logging.basicConfig(
 logging.getLogger("aiohttp").setLevel(logging.ERROR)
 logging.getLogger("aiohttp.web").setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+import sys
 
-async def start_bot():
-    print('\n')
-    print('Initializing Telegram Bot')
-
-    if not os.path.isdir(DOWNLOAD_LOCATION):
-        os.makedirs(DOWNLOAD_LOCATION)
-
-    bot_client = Client(
-        "bot_session",
+async def start_bot(bot_token):
+    LazyPrincessBot = Client(
+        "LazyPrincessBot",
         api_id=API_ID,
         api_hash=API_HASH,
-        bot_token=BOT_TOKEN,
-        sleep_threshold=60,
-        no_updates=True,
-        in_memory=True
+        bot_token=bot_token,
+        workers=50,
+        plugins={"root": "plugins"},
+        sleep_threshold=5
     )
-
-    await bot_client.start()
-    bot_info = await bot_client.get_me()
-    bot_client.username = bot_info.username
-
+    
+    await LazyPrincessBot.start()
+    print('\n')
+    print('Initializing Telegram Bot')
+    if not os.path.isdir(DOWNLOAD_LOCATION):
+        os.makedirs(DOWNLOAD_LOCATION)
+    
+    bot_info = await LazyPrincessBot.get_me()
+    LazyPrincessBot.username = bot_info.username
+    
     if ON_HEROKU:
         asyncio.create_task(ping_server())
-
+    
     b_users, b_chats, lz_verified = await db.get_banned()
     temp.BANNED_USERS = b_users
     temp.BANNED_CHATS = b_chats
     temp.LAZY_VERIFIED_CHATS = lz_verified
     await Media.ensure_indexes()
-
-    me = await bot_client.get_me()
+    me = await LazyPrincessBot.get_me()
     temp.ME = me.id
     temp.U_NAME = me.username
     temp.B_NAME = me.first_name
-    bot_client.username = '@' + me.username
-
-    # Set up the web server
+    LazyPrincessBot.username = '@' + me.username
+    
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0" if ON_HEROKU else BIND_ADDRESS
     await web.TCPSite(app, bind_address, PORT).start()
-
+    
     logging.info(f"{me.first_name} with Pyrogram v{__version__} (Layer {layer}) started on {me.username}.")
     logging.info(LOG_STR)
     await idle()
 
 if __name__ == '__main__':
-    try:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(start_bot())
-        logging.info('-----------------------🧐 Service running in Lazy Mode 😴-----------------------')
-    except KeyboardInterrupt:
-        logging.info('-----------------------😜 Service Stopped Sweetheart 😝-----------------------')
+    loop = asyncio.get_event_loop()
+    bot_token = sys.argv[1]
+    loop.run_until_complete(start_bot(bot_token))
+    logging.info('-----------------------🧐 Service running in Lazy Mode 😴-----------------------')

@@ -1,15 +1,9 @@
 import subprocess
 
-def start_bot(script_name):
-    return subprocess.Popen(["python3", script_name])
+bot_tokens = [
+    "6030299293:AAERiihnla1k7Tti8OhMU47AhnhuHUMeHgU",
+    "6583397612:AAEQ4vI-NdK02bzPp2egcOVzTZbvaW6NAx8"
+]
 
-if __name__ == '__main__':
-    # Start individual bot scripts
-    processes = [
-        start_bot("bot_0.py"),
-        start_bot("bot_1.py")
-    ]
-
-    # Wait for all processes to complete
-    for process in processes:
-        process.wait()
+for i, token in enumerate(bot_tokens):
+    subprocess.Popen(["python3", f"bot_{i}.py", token])
