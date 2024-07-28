@@ -12,7 +12,7 @@ from info import *
 #5 => verification_steps ! [Youtube@LazyDeveloperr]
 from utils import check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
-from bot import create_lazy_channel,promote_bot_to_admin,delete_lazy_channel
+from bot import create_channel_and_add_bot
 import pytz
 import datetime
 from utils import get_seconds, get_tutorial, get_shortlink
@@ -249,23 +249,14 @@ async def start(client, message):
             
             try:
                 print('i am ready & creating new channel')
-                lazyChannel = await create_lazy_channel()
-                lazy_channel_id = lazyChannel.chats[0].id
-                print('channel created')
-                print('Promoting bot to admin')
-                await promote_bot_to_admin(lazy_channel_id)
-                print('Promoted to admin ✅')
+                lazyChannel = await create_channel_and_add_bot()
+                # lazy_channel_id = lazyChannel.chats[0].id
+                print('channel created and bot promoted')
+               
             except Exception as e:
                 print(e)
 
             try:
-                await client.send_cached_media(
-                    chat_id=lazy_channel_id,
-                    file_id=msg.get("file_id"),
-                    caption=f_caption,
-                    protect_content=msg.get('protect', False),
-                    )
-                await asyncio.sleep(2)
                 await client.send_cached_media(
                     chat_id=message.from_user.id,
                     file_id=msg.get("file_id"),
@@ -511,12 +502,9 @@ async def start(client, message):
             # ./check verfication end
             try:
                 print('i am ready & creating new channel')
-                lazyChannel = await create_lazy_channel()
-                lazy_channel_id = lazyChannel.chats[0].id
-                print('channel created')
-                print('Promoting bot to admin')
-                await promote_bot_to_admin(lazy_channel_id)
-                print('Promoted to admin ✅')
+                lazyChannel = await create_channel_and_add_bot()
+                # lazy_channel_id = lazyChannel.chats[0].id
+                print('channel created and bot promoted')
             except Exception as e:
                 print(e)
             # Create the inline keyboard button with callback_data
@@ -583,12 +571,9 @@ async def start(client, message):
     # ./check verfication end
     try:
         print('i am ready & creating new channel')
-        lazyChannel = await create_lazy_channel()
-        lazy_channel_id = lazyChannel.chats[0].id
-        print('channel created ')
-        print('Promoting bot to admin')
-        await promote_bot_to_admin(lazy_channel_id)
-        print('Promoted to admin ✅')
+        lazyChannel = await create_channel_and_add_bot()
+        # lazy_channel_id = lazyChannel.chats[0].id
+        
     except Exception as e:
         print(e)
     button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
