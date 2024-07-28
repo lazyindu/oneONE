@@ -623,7 +623,7 @@ async def start(client, message):
     select_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
     SELECTED_CHANNEL = select_random_channel
     along_with_lazy_info = "**⚠ DELETING IN 10 minute ⚠**"
-    along_with_lazy_footer = f"**Dear {message.from_user.mention}"
+    along_with_lazy_footer = f"**Dear {message.from_user.mention} ! Please forward this file to other chat or saved message ❤"
     lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
             
     button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
@@ -642,19 +642,35 @@ async def start(client, message):
 
     message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.message_id)
     file_link = message_link.link
-
-    if SELECTED_CHANNEL and not await is_subscribed(client, message):
-        print(f'User is not subscribed : Got url => {lazy_invite_url}')
+    try:
+        member_status = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
+        is_member = member_status.status in ['member', 'administrator', 'creator']
+    except:
+        is_member = False
+    if not is_member:
+        print(f'User is not subscribed: Got url => {lazy_invite_url}')
         fusss = await client.send_message(
             chat_id=message.from_user.id,
-            text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note:Dear {message.from_user.mention} Agar aap ye channel leave nhi kroge toh next time aapko direct link milega ❤"
+            text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
         )
     else:
         fasss = await client.send_message(
             chat_id=message.from_user.id,
-            text=f"🎉You'r already channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Channel pr bne rehne ke liye aapka dhanyawad {message.from_user.mention}❤"
+            text=f"🎉You're already a channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Thank you for staying with the channel, {message.from_user.mention}❤"
         )
-    print(f'User is subscribed : Got LINK => {file_link}')
+    print(f'User is subscribed: Got LINK => {file_link}')
+    # if SELECTED_CHANNEL and not await is_subscribed(client, message):
+    #     print(f'User is not subscribed : Got url => {lazy_invite_url}')
+    #     fusss = await client.send_message(
+    #         chat_id=message.from_user.id,
+    #         text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note:Dear {message.from_user.mention} Agar aap ye channel leave nhi kroge toh next time aapko direct link milega ❤"
+    #     )
+    # else:
+    #     fasss = await client.send_message(
+    #         chat_id=message.from_user.id,
+    #         text=f"🎉You'r already channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Channel pr bne rehne ke liye aapka dhanyawad {message.from_user.mention}❤"
+    #     )
+    # print(f'User is subscribed : Got LINK => {file_link}')
 
     btnl = [[
                 InlineKeyboardButton("❗ ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ ❗", callback_data=f'delfile#{file_id}')
