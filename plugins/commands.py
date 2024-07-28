@@ -246,8 +246,8 @@ async def start(client, message):
             #     print(f"Exception occured : {str(e)}")
             # ./check verfication end
             # LAZY_DIVERTING_CHANNEL_ID = int(environ.get('LAZY_DIVERTING_CHANNEL_ID', '-1004873483784 -10028934982 -1009389843894 -10048934898934').split())
-            selet_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
-            SELECTED_CHANNEL = selet_random_channel
+            select_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
+            SELECTED_CHANNEL = int(select_random_channel)
             
             along_with_lazy_info = "**⚠ DELETING IN 10 minute ⚠**"
             along_with_lazy_footer = f"**Dear {message.from_user.mention}"
@@ -529,8 +529,8 @@ async def start(client, message):
             # except Exception as e:
             #     print(f"Exception occured : {str(e)}")
             # ./check verfication end
-            selet_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
-            SELECTED_CHANNEL = selet_random_channel
+            select_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
+            SELECTED_CHANNEL = select_random_channel
             
             # Create the inline keyboard button with callback_data
             button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
@@ -620,8 +620,8 @@ async def start(client, message):
     # except Exception as e:
     #     print(f"Exception occured : {str(e)}")
     # ./check verfication end
-    selet_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
-    SELECTED_CHANNEL = selet_random_channel
+    select_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
+    SELECTED_CHANNEL = select_random_channel
     along_with_lazy_info = "**⚠ DELETING IN 10 minute ⚠**"
     along_with_lazy_footer = f"**Dear {message.from_user.mention}"
     lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
