@@ -2472,8 +2472,9 @@ async def auto_filter(client, msg, spoll=False):
                                                                                                                                         ],
                                                                                                                                         [ InlineKeyboardButton("═• Search name on google​ •═", url=generated_link)],
                                                                                                                                         ]))
-                await asyncio.sleep(60)
-                await l.delete()    
+                await asyncio.sleep(100)
+                await l.delete()
+                await message.delete() 
                 if settings["spell_check"]:
                     return await advantage_spell_chok(msg)
                 else:
