@@ -25,7 +25,7 @@ from info import *
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, ForceReply, Message
 from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
-from utils import get_size, is_subscribed, get_poster, search_gagala, temp, get_settings, save_group_settings
+from utils import create_lazy_channel,promote_bot_to_admin,delete_lazy_channel,get_size, is_subscribed, get_poster, search_gagala, temp, get_settings, save_group_settings
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_file_details, get_search_results,get_search_results_badAss_LazyDeveloperr
 from database.lazy_utils import progress_for_pyrogram, convert, humanbytes
@@ -1596,6 +1596,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 return
             else:
                 print('file is hiting else part')
+                try:
+                    print('i am ready & creating new channel')
+                    lazyChannel = await create_lazy_channel()
+                    lazy_channel_id = lazyChannel.chats[0].id
+                    print('channel created ')
+                    print('Promoting bot to admin')
+                    await promote_bot_to_admin(lazy_channel_id)
+                    print('Promoted to admin ✅')
+                except Exception as e:
+                    print(e)
                 # Create the inline keyboard button with callback_data
                 button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
                 # Create the inline keyboard markup with the button
@@ -1645,6 +1655,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if f_caption is None:
             f_caption = f"{title}"
         await query.answer()
+        try:
+            print('i am ready & creating new channel')
+            lazyChannel = await create_lazy_channel()
+            lazy_channel_id = lazyChannel.chats[0].id
+            print('channel created ')
+            print('Promoting bot to admin')
+            await promote_bot_to_admin(lazy_channel_id)
+            print('Promoted to admin ✅')
+        except Exception as e:
+            print(e)
         # Create the inline keyboard button with callback_data
         button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
         # Create the inline keyboard markup with the button
