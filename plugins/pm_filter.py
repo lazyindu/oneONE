@@ -2724,11 +2724,11 @@ async def auto_filter(client, msg, spoll=False):
             # set_seconds = list(map(int, LAZY_SECONDS.split()))
             mention_user = message.from_user.mention
             LAZY_MESSAGES = [
-                    "Hello {},  ?",
+                    "Hello {}, How are you ?",
                     "Come here please, {}.",
                     "How is your day, {}?",
                     "Good morning, {}.",
-                    "Good night, {}.",
+                    "I'm Good and what about you , {}.",
                     "Happy to see you, {}.",
                     "Let's catch up soon, {}.",
                     "Have a nice day, {}.",
@@ -2749,8 +2749,10 @@ async def auto_filter(client, msg, spoll=False):
                 await z.delete()
                 thanksaa = await message.reply_text(f"♥ Thank you **{message.from_user.mention}**...\n<code>🎉 we love you 🎊</code>")
                 embraceaa = await thanksaa.reply_sticker(sticker=random.choice(lazystickerset))
-                await asyncio.sleep(set_seconds)
-                await message.reply_text(set_message)
+                await msg.message.delete()
+                await asyncio.sleep(300)
+                await thanksaa.delete()
+                await embraceaa.delete()
         except (MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty):
             pic = imdb.get('poster')
             poster = pic.replace('.jpg', "._V1_UX360.jpg")
@@ -2762,8 +2764,11 @@ async def auto_filter(client, msg, spoll=False):
                 await m.delete()
                 thanks = await message.reply_text(f"♥ Thank you **{message.from_user.mention}**...\n<code>🎉 we love you 🎊</code>")
                 embrace = await thanks.reply_sticker(sticker=random.choice(lazystickerset))
-                await asyncio.sleep(set_seconds)
-                await message.reply_text(set_message) 
+                await msg.message.delete()
+                await asyncio.sleep(300)
+                await thanks.delete()
+                await embrace.delete()
+
         except Exception as e:
             logger.exception(e)
             n = await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
@@ -2772,8 +2777,10 @@ async def auto_filter(client, msg, spoll=False):
                 await n.delete()         
                 thanksz = await message.reply_text(f"♥ Thank you **{message.from_user.mention}**...\n<code>🎉 we love you 🎊</code>")
                 embracez = await thanksz.reply_sticker(sticker=random.choice(lazystickerset))
-                await asyncio.sleep(set_seconds)
-                await message.reply_text(set_message)       
+                await msg.message.delete()       
+                await asyncio.sleep(300)
+                await thanksz.delete()       
+                await embracez.delete()       
     else:
         p = await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
         
@@ -2782,8 +2789,10 @@ async def auto_filter(client, msg, spoll=False):
             await p.delete()
             thanksx = await message.reply_text(f"♥ Thank you **{message.from_user.mention}**...\n<code>🎉 we love you 🎊</code>")
             embracex = await thanksx.reply_sticker(sticker=random.choice(lazystickerset))
-            await asyncio.sleep(set_seconds)
-            await message.reply_text(set_message)
+            await msg.message.delete() 
+            await asyncio.sleep(300)
+            await thanksx.delete() 
+            await embracex.delete() 
     if spoll:
         await msg.message.delete()
 
