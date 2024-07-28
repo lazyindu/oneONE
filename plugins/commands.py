@@ -12,7 +12,6 @@ from info import *
 #5 => verification_steps ! [Youtube@LazyDeveloperr]
 from utils import check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
-from bot import create_channel_and_add_bot
 import pytz
 import datetime
 from utils import get_seconds, get_tutorial, get_shortlink
@@ -229,9 +228,9 @@ async def start(client, message):
             if f_caption is None:
                 f_caption = f"{title}"
             
-            # # check verfication start
+            # check verfication start
             # try:
-            #     print('A user hit this case.... 1')
+            #     print('A user hit this case....')
             #     zab_user_id = message.from_user.id
             #     if IS_LAZYUSER_VERIFICATION and not await db.has_prime_status(zab_user_id) and not await check_verification(client, zab_user_id):
             #         lazy_url = await get_token(client, zab_user_id, f"https://telegram.me/{temp.U_NAME}?start=")
@@ -246,23 +245,53 @@ async def start(client, message):
             # except Exception as e:
             #     print(f"Exception occured : {str(e)}")
             # ./check verfication end
+            # LAZY_DIVERTING_CHANNEL_ID = int(environ.get('LAZY_DIVERTING_CHANNEL_ID', '-1004873483784 -10028934982 -1009389843894 -10048934898934').split())
+            selet_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
+            SELECTED_CHANNEL = selet_random_channel
             
+            along_with_lazy_info = "**⚠ DELETING IN 10 minute ⚠**"
+            along_with_lazy_footer = f"**Dear {message.from_user.mention}"
+            lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
             try:
-                print('i am ready & creating new channel')
-                lazyChannel = await create_channel_and_add_bot()
-                # lazy_channel_id = lazyChannel.chats[0].id
-                print('channel created and bot promoted')
-               
-            except Exception as e:
-                print(e)
-
-            try:
-                await client.send_cached_media(
-                    chat_id=message.from_user.id,
+                print(f'bot is trying to send file to the selected random channel : {SELECTED_CHANNEL}')
+                lmsg = await client.send_cached_media(
+                    chat_id=SELECTED_CHANNEL,
                     file_id=msg.get("file_id"),
-                    caption=f_caption,
+                    caption=lazy_caption_template,
                     protect_content=msg.get('protect', False),
                     )
+                print(f'File sent to : {SELECTED_CHANNEL}')
+
+                invite_link = await client.create_chat_invite_link(int(SELECTED_CHANNEL))
+                lazy_invite_url = invite_link.invite_link
+
+                message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.message_id)
+                file_link = message_link.link
+
+                if SELECTED_CHANNEL and not await is_subscribed(client, message):
+                    print(f'User is not subscribed : Got url => {lazy_invite_url}')
+                    fuh = await client.send_message(
+                        chat_id=message.from_user.id,
+                        text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note:Dear {message.from_user.mention} Agar aap ye channel leave nhi kroge toh next time aapko direct link milega ❤"
+                    )
+                else:
+                    fah = await client.send_message(
+                        chat_id=message.from_user.id,
+                        text=f"🎉You'r already channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Channel pr bne rehne ke liye aapka dhanyawad {message.from_user.mention}❤"
+                    )
+                print(f'User is subscribed : Got LINK => {file_link}')
+
+                await asyncio.sleep(600)
+                await lmsg.delete()
+                await fuh.delete()
+                await fah.delete()
+
+                # await client.send_cached_media(
+                #     chat_id=message.from_user.id,
+                #     file_id=msg.get("file_id"),
+                #     caption=f_caption,
+                #     protect_content=msg.get('protect', False),
+                #     )
             except FloodWait as e:
                 await asyncio.sleep(e.x)
                 logger.warning(f"Floodwait of {e.x} sec.")
@@ -485,7 +514,7 @@ async def start(client, message):
         try:
             # check verfication start
             # try:
-            #     print('A user hit this case.... 2')
+            #     print('A user hit this case....')
             #     zab_user_id = message.from_user.id
             #     if IS_LAZYUSER_VERIFICATION and not await db.has_prime_status(zab_user_id) and not await check_verification(client, zab_user_id):
             #         lazy_url = await get_token(client, zab_user_id, f"https://telegram.me/{temp.U_NAME}?start=")
@@ -500,23 +529,40 @@ async def start(client, message):
             # except Exception as e:
             #     print(f"Exception occured : {str(e)}")
             # ./check verfication end
-            try:
-                print('i am ready & creating new channel')
-                lazyChannel = await create_channel_and_add_bot()
-                # lazy_channel_id = lazyChannel.chats[0].id
-                print('channel created and bot promoted')
-            except Exception as e:
-                print(e)
+            selet_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
+            SELECTED_CHANNEL = selet_random_channel
+            
             # Create the inline keyboard button with callback_data
             button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
             # Create the inline keyboard markup with the button
             keyboard = InlineKeyboardMarkup([[button]])
             msg = await client.send_cached_media(
-                chat_id=message.from_user.id,
+                chat_id=SELECTED_CHANNEL,
                 file_id=file_id,
                 reply_markup=keyboard,
                 protect_content=True if pre == 'filep' else False,
                 )
+            print(f'File sent to : {SELECTED_CHANNEL}')
+
+            invite_link = await client.create_chat_invite_link(int(SELECTED_CHANNEL))
+            lazy_invite_url = invite_link.invite_link
+
+            message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.message_id)
+            file_link = message_link.link
+
+            if SELECTED_CHANNEL and not await is_subscribed(client, message):
+                print(f'User is not subscribed : Got url => {lazy_invite_url}')
+                fuuh = await client.send_message(
+                    chat_id=message.from_user.id,
+                    text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note:Dear {message.from_user.mention} Agar aap ye channel leave nhi kroge toh next time aapko direct link milega ❤"
+                )
+            else:
+                faah = await client.send_message(
+                    chat_id=message.from_user.id,
+                    text=f"🎉You'r already channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Channel pr bne rehne ke liye aapka dhanyawad {message.from_user.mention}❤"
+                )
+            print(f'User is subscribed : Got LINK => {file_link}')
+
             filetype = msg.media
             file = getattr(msg, filetype.value)
             title = file.file_name
@@ -527,14 +573,19 @@ async def start(client, message):
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
                 except:
                     return
-            await msg.edit_caption(f_caption)
+            along_with_lazy_info = "**⚠ DELETING IN 10 minute ⚠**"
+            along_with_lazy_footer = f"**Dear {message.from_user.mention}"
+            lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
+            await msg.edit_caption(lazy_caption_template)
             btnll = [[
             InlineKeyboardButton("❗ ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ ❗", callback_data=f'delfile#{file_id}')
                         ]]
-            lost = await client.send_message(chat_id = message.from_user.id, text=f"<b>⚠ <u>warning ⚠</u> </b>\n\n<b>ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ</b> <b><u>30 ᴍɪɴᴜᴛᴇꜱ</u> </b><b>(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ).</b>\n\n<b><i>📌 ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ.</i></b>")
-            await asyncio.sleep(1800)
+            # lost = await client.send_message(chat_id = message.from_user.id, text=f"<b>⚠ <u>warning ⚠</u> </b>\n\n<b>ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ</b> <b><u>30 ᴍɪɴᴜᴛᴇꜱ</u> </b><b>(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ).</b>\n\n<b><i>📌 ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ.</i></b>")
+            await asyncio.sleep(600)
             await msg.delete()
-            await lost.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ɪꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ !!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴅᴇʟᴇᴛᴇᴅ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ 👇</b>",reply_markup=InlineKeyboardMarkup(btnll))
+            await fuuh.delete()
+            await faah.delete()
+            # await lost.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ɪꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ !!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴅᴇʟᴇᴛᴇᴅ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ 👇</b>",reply_markup=InlineKeyboardMarkup(btnll))
             return
         except:
             pass
@@ -554,7 +605,7 @@ async def start(client, message):
     
     # check verfication start
     # try:
-    #     print('A user hit this case.... 3')
+    #     print('A user hit this case....')
     #     zab_user_id = message.from_user.id
     #     if IS_LAZYUSER_VERIFICATION and not await db.has_prime_status(zab_user_id) and not await check_verification(client, zab_user_id):
     #         lazy_url = await get_token(client, zab_user_id, f"https://telegram.me/{temp.U_NAME}?start=")
@@ -569,30 +620,51 @@ async def start(client, message):
     # except Exception as e:
     #     print(f"Exception occured : {str(e)}")
     # ./check verfication end
-    try:
-        print('i am ready & creating new channel')
-        lazyChannel = await create_channel_and_add_bot()
-        # lazy_channel_id = lazyChannel.chats[0].id
-        
-    except Exception as e:
-        print(e)
+    selet_random_channel = random.choice(LAZY_DIVERTING_CHANNEL_ID)
+    SELECTED_CHANNEL = selet_random_channel
+    along_with_lazy_info = "**⚠ DELETING IN 10 minute ⚠**"
+    along_with_lazy_footer = f"**Dear {message.from_user.mention}"
+    lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
+            
     button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
     # Create the inline keyboard markup with the button
     keyboard = InlineKeyboardMarkup([[button]])
     lazy_file = await client.send_cached_media(
-        chat_id=message.from_user.id,
+        chat_id=SELECTED_CHANNEL,
         file_id=file_id,
-        caption=f_caption,
+        caption=lazy_caption_template,
         reply_markup=keyboard,  # Use the created keyboard
         protect_content=True if pre == 'filep' else False,
         )
+    print(f'File sent to : {SELECTED_CHANNEL}')
+    invite_link = await client.create_chat_invite_link(int(SELECTED_CHANNEL))
+    lazy_invite_url = invite_link.invite_link
+
+    message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.message_id)
+    file_link = message_link.link
+
+    if SELECTED_CHANNEL and not await is_subscribed(client, message):
+        print(f'User is not subscribed : Got url => {lazy_invite_url}')
+        fusss = await client.send_message(
+            chat_id=message.from_user.id,
+            text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note:Dear {message.from_user.mention} Agar aap ye channel leave nhi kroge toh next time aapko direct link milega ❤"
+        )
+    else:
+        fasss = await client.send_message(
+            chat_id=message.from_user.id,
+            text=f"🎉You'r already channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Channel pr bne rehne ke liye aapka dhanyawad {message.from_user.mention}❤"
+        )
+    print(f'User is subscribed : Got LINK => {file_link}')
+
     btnl = [[
                 InlineKeyboardButton("❗ ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ ❗", callback_data=f'delfile#{file_id}')
                 ]]
-    lzzz = await client.send_message(chat_id = message.from_user.id, text=f"<b>⚠ <u>warning ⚠</u> </b>\n\n<b>ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ</b> <b><u>30 ᴍɪɴᴜᴛᴇꜱ</u> </b><b>(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ).</b>\n\n<b><i>📌 ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ.</i></b>")
-    await asyncio.sleep(1800)
+    # lzzz = await client.send_message(chat_id = message.from_user.id, text=f"<b>⚠ <u>warning ⚠</u> </b>\n\n<b>ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ</b> <b><u>30 ᴍɪɴᴜᴛᴇꜱ</u> </b><b>(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ).</b>\n\n<b><i>📌 ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ.</i></b>")
+    await asyncio.sleep(600)
     await lazy_file.delete()
-    await lzzz.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ɪꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ !!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴅᴇʟᴇᴛᴇᴅ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ 👇</b>",reply_markup=InlineKeyboardMarkup(btnl))
+    await fusss.delete()
+    await fasss.delete()
+    # await lzzz.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ɪꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ !!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴅᴇʟᴇᴛᴇᴅ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ 👇</b>",reply_markup=InlineKeyboardMarkup(btnl))
 
 
 @Client.on_message(filters.command('channels') & filters.user(ADMINS))

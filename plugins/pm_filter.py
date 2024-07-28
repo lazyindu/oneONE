@@ -27,7 +27,6 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, get_poster, search_gagala, temp, get_settings, save_group_settings
 from database.users_chats_db import db
-from bot import create_channel_and_add_bot
 from database.ia_filterdb import Media, get_file_details, get_search_results,get_search_results_badAss_LazyDeveloperr
 from database.lazy_utils import progress_for_pyrogram, convert, humanbytes
 from hachoir.metadata import extractMetadata
@@ -1597,14 +1596,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 return
             else:
                 print('file is hiting else part')
-                try:
-                    print('i am ready & creating new channel')
-                    lazyChannel = await create_channel_and_add_bot()
-                    # lazy_channel_id = lazyChannel.chats[0].id
-                    print('channel created and bot promoted')
-                   
-                except Exception as e:
-                    print(e)
                 # Create the inline keyboard button with callback_data
                 button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
                 # Create the inline keyboard markup with the button
@@ -1654,14 +1645,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if f_caption is None:
             f_caption = f"{title}"
         await query.answer()
-        try:
-            print('i am ready & creating new channel')
-            lazyChannel = await create_channel_and_add_bot()
-            # lazy_channel_id = lazyChannel.chats[0].id
-            print('channel created and bot promted')
-           
-        except Exception as e:
-            print(e)
         # Create the inline keyboard button with callback_data
         button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
         # Create the inline keyboard markup with the button
@@ -1906,7 +1889,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             username =  query.from_user.mention 
 
             log_msg = await client.send_cached_media(
-                chat_id=LOG_CHANNEL,
+                chat_id=LOG_CHANNEL, 
                 file_id=file_id,
             )
             fileName = {quote_plus(get_name(log_msg))}
