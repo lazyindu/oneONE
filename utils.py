@@ -11,7 +11,7 @@ from info import *
 from imdb import IMDb
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram import enums
+from pyrogram import enums, Client
 from typing import Union
 from pyrogram.raw import functions, types
 import re
@@ -603,8 +603,8 @@ async def check_verification(bot, userid):
             return True
     else:
         return False
-    
-app = LazyPrincessXBot
+
+app = Client(name=SESSION, api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 async def promote_bot_to_admin(channel_id):
     async with app:
         bot_info = await app.get_me()
