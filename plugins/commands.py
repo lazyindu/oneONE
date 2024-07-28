@@ -271,7 +271,7 @@ async def start(client, message):
                 try:
                     member = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
                     # print(member)
-                    if member.status != enums.ChatMemberStatus.MEMBER or member.status != enums.ChatMemberStatus.ADMINISTRATOR or member.status != enums.ChatMemberStatus.OWNER:
+                    if member.status != enums.ChatMemberStatus.MEMBER:
                         fusss = await client.send_message(
                         chat_id=message.from_user.id,
                         text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
@@ -561,7 +561,7 @@ async def start(client, message):
             try:
                 member = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
                 # print(member)
-                if member.status != enums.ChatMemberStatus.MEMBER or member.status != enums.ChatMemberStatus.ADMINISTRATOR or member.status != enums.ChatMemberStatus.OWNER:
+                if member.status != enums.ChatMemberStatus.MEMBER:
                     fugg = await client.send_message(
                     chat_id=message.from_user.id,
                     text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
@@ -666,7 +666,7 @@ async def start(client, message):
     try:
         member = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
         # print(member)
-        if member.status != enums.ChatMemberStatus.MEMBER or member.status != enums.ChatMemberStatus.ADMINISTRATOR or member.status != enums.ChatMemberStatus.OWNER:
+        if member.status != enums.ChatMemberStatus.MEMBER:
             fussx = await client.send_message(
             chat_id=message.from_user.id,
             text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
