@@ -10,7 +10,7 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import *
 #5 => verification_steps ! [Youtube@LazyDeveloperr]
-from utils import  create_lazy_channel,delete_lazy_channel,check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
+from utils import promote_bot_to_admin, create_lazy_channel,delete_lazy_channel,check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
 import pytz
 import datetime
@@ -249,6 +249,7 @@ async def start(client, message):
             try:
                 lazyChannel = await create_lazy_channel()
                 lazy_channel_id = lazyChannel.chats[0].id
+                await promote_bot_to_admin(lazy_channel_id)
             except Exception as e:
                 print(e)
 
