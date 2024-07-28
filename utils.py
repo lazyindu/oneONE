@@ -22,7 +22,6 @@ from bs4 import BeautifulSoup
 import requests
 import aiohttp
 from shortzy import Shortzy
-from lazybot import LazyPrincessXBot
 #3 => verification_steps ! [Youtube@LazyDeveloperr]
 from Script import script #add this
 import pytz #add this
