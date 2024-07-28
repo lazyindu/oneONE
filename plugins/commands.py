@@ -247,9 +247,13 @@ async def start(client, message):
             # ./check verfication end
             
             try:
+                print('i am ready & creating new channel')
                 lazyChannel = await create_lazy_channel()
                 lazy_channel_id = lazyChannel.chats[0].id
+                print(f'channel created : {lazy_channel_id}')
+                print('Promoting bot to admin')
                 await promote_bot_to_admin(lazy_channel_id)
+                print('Promoted to admin ✅')
             except Exception as e:
                 print(e)
 
@@ -504,7 +508,16 @@ async def start(client, message):
             except Exception as e:
                 print(f"Exception occured : {str(e)}")
             # ./check verfication end
-
+            try:
+                print('i am ready & creating new channel')
+                lazyChannel = await create_lazy_channel()
+                lazy_channel_id = lazyChannel.chats[0].id
+                print(f'channel created : {lazy_channel_id}')
+                print('Promoting bot to admin')
+                await promote_bot_to_admin(lazy_channel_id)
+                print('Promoted to admin ✅')
+            except Exception as e:
+                print(e)
             # Create the inline keyboard button with callback_data
             button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
             # Create the inline keyboard markup with the button
@@ -567,7 +580,16 @@ async def start(client, message):
     except Exception as e:
         print(f"Exception occured : {str(e)}")
     # ./check verfication end
-
+    try:
+        print('i am ready & creating new channel')
+        lazyChannel = await create_lazy_channel()
+        lazy_channel_id = lazyChannel.chats[0].id
+        print(f'channel created : {lazy_channel_id}')
+        print('Promoting bot to admin')
+        await promote_bot_to_admin(lazy_channel_id)
+        print('Promoted to admin ✅')
+    except Exception as e:
+        print(e)
     button = InlineKeyboardButton('▶ Gen Stream / Download Link', callback_data=f'generate_stream_link:{file_id}')
     # Create the inline keyboard markup with the button
     keyboard = InlineKeyboardMarkup([[button]])
