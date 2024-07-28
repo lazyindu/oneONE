@@ -284,7 +284,7 @@ async def start(client, message):
                         )
                         # print(f'User is subscribed: Got LINK => {file_link}')
                 except UserNotParticipant:
-                    fasss = await client.send_message(
+                    fasssg = await client.send_message(
                         chat_id=message.from_user.id,
                         text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
                     )
@@ -293,6 +293,7 @@ async def start(client, message):
                 await lmsg.delete()
                 await fusss.delete()
                 await fasss.delete()
+                await fasssg.delete()
 
                 # await client.send_cached_media(
                 #     chat_id=message.from_user.id,
@@ -568,13 +569,13 @@ async def start(client, message):
                     )
                     # print(f'User is not subscribed: Got url => {lazy_invite_url}')
                 else:
-                    fasss = await client.send_message(
+                    fagg = await client.send_message(
                     chat_id=message.from_user.id,
                     text=f"🎉You're already a channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Thank you for staying with the channel, {message.from_user.mention}❤"
                     )
                     # print(f'User is subscribed: Got LINK => {file_link}')
             except UserNotParticipant:
-                fagg = await client.send_message(
+                faggu = await client.send_message(
                     chat_id=message.from_user.id,
                     text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
                 )
@@ -604,6 +605,7 @@ async def start(client, message):
             await msg.delete()
             await fugg.delete()
             await fagg.delete()
+            await faggu.delete()
             # await lost.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ɪꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ !!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴅᴇʟᴇᴛᴇᴅ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ 👇</b>",reply_markup=InlineKeyboardMarkup(btnll))
             return
         except:
@@ -673,13 +675,13 @@ async def start(client, message):
             )
             # print(f'User is not subscribed: Got url => {lazy_invite_url}')
         else:
-            fasss = await client.send_message(
+            fassx = await client.send_message(
             chat_id=message.from_user.id,
             text=f"🎉You're already a channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Thank you for staying with the channel, {message.from_user.mention}❤"
             )
             # print(f'User is subscribed: Got LINK => {file_link}')
     except UserNotParticipant:
-        fassx = await client.send_message(
+        fassxx = await client.send_message(
             chat_id=message.from_user.id,
             text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
         )
@@ -709,6 +711,7 @@ async def start(client, message):
     await lazy_file.delete()
     await fussx.delete()
     await fassx.delete()
+    await fassxx.delete()
     # await lzzz.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ɪꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ !!\n\nᴄʟɪᴄᴋ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴅᴇʟᴇᴛᴇᴅ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ 👇</b>",reply_markup=InlineKeyboardMarkup(btnl))
 
 
