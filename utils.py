@@ -13,7 +13,7 @@ import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import enums
 from typing import Union
-from pyrogram.raw import functions
+from pyrogram.raw import functions, types
 import re
 import os
 from typing import List
@@ -605,6 +605,28 @@ async def check_verification(bot, userid):
         return False
     
 app = LazyPrincessXBot
+async def promote_bot_to_admin(channel_id):
+    async with app:
+        bot_info = await app.get_me()
+        result = await app.invoke(
+            functions.channels.EditAdmin(
+                channel=channel_id,
+                user_id=bot_info.id,
+                admin_rights=types.ChatAdminRights(
+                    change_info=True,
+                    post_messages=True,
+                    edit_messages=True,
+                    delete_messages=True,
+                    ban_users=True,
+                    invite_users=True,
+                    pin_messages=True,
+                    add_admins=False,
+                ),
+                rank="Admin"
+            )
+        )
+        print(f'Bot promoted to admin: {result}')
+
 async def create_lazy_channel():
     async with app:
         result = await app.invoke(
@@ -617,6 +639,7 @@ async def create_lazy_channel():
         print(f"Channel created: {result}")
         return result
     
+
 async def delete_lazy_channel(channel_id):
     async with app:
         result =  await app.invoke(
