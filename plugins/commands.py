@@ -253,42 +253,42 @@ async def start(client, message):
             along_with_lazy_footer = f"**Dear {message.from_user.mention}"
             lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
             try:
-                print(f'bot is trying to send file to the selected random channel : {SELECTED_CHANNEL}')
+                # print(f'bot is trying to send file to the selected random channel : {SELECTED_CHANNEL}')
                 lmsg = await client.send_cached_media(
                     chat_id=SELECTED_CHANNEL,
                     file_id=msg.get("file_id"),
                     caption=lazy_caption_template,
                     protect_content=msg.get('protect', False),
                     )
-                print(f'File sent to : {SELECTED_CHANNEL}')
+                # print(f'File sent to : {SELECTED_CHANNEL}')
                 invite_link = await client.create_chat_invite_link(int(SELECTED_CHANNEL))
                 lazy_invite_url = invite_link.invite_link
-                print(lazy_invite_url)
+                # print(lazy_invite_url)
 
                 message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.id)
                 file_link = message_link.link
-                print(file_link)
+                # print(file_link)
                 try:
                     member = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
-                    print(member)
-                    if member.status != enums.ChatMemberStatus.MEMBER:
+                    # print(member)
+                    if member.status != enums.ChatMemberStatus.MEMBER or member.status != enums.ChatMemberStatus.ADMINISTRATOR or member.status != enums.ChatMemberStatus.OWNER:
                         fusss = await client.send_message(
                         chat_id=message.from_user.id,
                         text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
                         )
-                        print(f'User is not subscribed: Got url => {lazy_invite_url}')
+                        # print(f'User is not subscribed: Got url => {lazy_invite_url}')
                     else:
                         fasss = await client.send_message(
                         chat_id=message.from_user.id,
                         text=f"🎉You're already a channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Thank you for staying with the channel, {message.from_user.mention}❤"
                         )
-                        print(f'User is subscribed: Got LINK => {file_link}')
+                        # print(f'User is subscribed: Got LINK => {file_link}')
                 except UserNotParticipant:
                     fasss = await client.send_message(
                         chat_id=message.from_user.id,
                         text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
                     )
-                    print(f'User is not subscribed: Got url => {lazy_invite_url}')
+                    # print(f'User is not subscribed: Got url => {lazy_invite_url}')
                 await asyncio.sleep(600)
                 await lmsg.delete()
                 await fusss.delete()
@@ -393,7 +393,7 @@ async def start(client, message):
             )
     
     if data.startswith("sendfiles"):
-        print('i am hit in commands')
+        # print('i am hit in commands')
         try:
             userid = message.from_user.id if message.from_user else None
             chat_id = int("-" + file_id.split("-")[1])
@@ -443,7 +443,7 @@ async def start(client, message):
         return
     
     elif data.startswith("all"):
-        print('Help ! i am hit - all files')
+        # print('Help ! i am hit - all files')
         user_id = message.from_user.id
         files = temp.GETALL.get(file_id)
         if not files:
@@ -486,7 +486,7 @@ async def start(client, message):
         await k.edit_text("<b>ʏᴏᴜʀ ᴠɪᴅᴇᴏꜱ / ꜰɪʟᴇꜱ ᴀʀᴇ ᴅᴇʟᴇᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ !\nᴋɪɴᴅʟʏ ꜱᴇᴀʀᴄʜ ᴀɢᴀɪɴ.</b>")
         return
     elif data.startswith("files"):
-        print('file is being checked and served')
+        # print('file is being checked and served')
         user_id = message.from_user.id
         # try:
         #     ident, req, key, offset = message.data.split("_")
@@ -550,35 +550,35 @@ async def start(client, message):
                 reply_markup=keyboard,
                 protect_content=True if pre == 'filep' else False,
                 )
-            print(f'File sent to : {SELECTED_CHANNEL}')
+            # print(f'File sent to : {SELECTED_CHANNEL}')
             invite_link = await client.create_chat_invite_link(int(SELECTED_CHANNEL))
             lazy_invite_url = invite_link.invite_link
-            print(lazy_invite_url)
+            # print(lazy_invite_url)
 
             message_link = await client.get_messages(int(SELECTED_CHANNEL), msg.id)
             file_link = message_link.link
-            print(file_link)
+            # print(file_link)
             try:
                 member = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
-                print(member)
-                if member.status != enums.ChatMemberStatus.MEMBER:
+                # print(member)
+                if member.status != enums.ChatMemberStatus.MEMBER or member.status != enums.ChatMemberStatus.ADMINISTRATOR or member.status != enums.ChatMemberStatus.OWNER:
                     fugg = await client.send_message(
                     chat_id=message.from_user.id,
                     text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
                     )
-                    print(f'User is not subscribed: Got url => {lazy_invite_url}')
+                    # print(f'User is not subscribed: Got url => {lazy_invite_url}')
                 else:
                     fasss = await client.send_message(
                     chat_id=message.from_user.id,
                     text=f"🎉You're already a channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Thank you for staying with the channel, {message.from_user.mention}❤"
                     )
-                    print(f'User is subscribed: Got LINK => {file_link}')
+                    # print(f'User is subscribed: Got LINK => {file_link}')
             except UserNotParticipant:
                 fagg = await client.send_message(
                     chat_id=message.from_user.id,
                     text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
                 )
-                print(f'User is not subscribed: Got url => {lazy_invite_url}')
+                # print(f'User is not subscribed: Got url => {lazy_invite_url}')
             
             filetype = msg.media
             file = getattr(msg, filetype.value)
@@ -594,7 +594,7 @@ async def start(client, message):
             along_with_lazy_footer = f"**Dear {message.from_user.mention}"
             lazy_caption_template =f"{along_with_lazy_info}\n\n{f_caption}\n\n{along_with_lazy_footer}"
             await msg.edit_caption(lazy_caption_template)
-            print('reached to edit caption')
+            # print('reached to edit caption')
             # btnll = [[
             # InlineKeyboardButton("❗ ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ ❗", callback_data=f'delfile#{file_id}')
             #             ]]
@@ -655,35 +655,35 @@ async def start(client, message):
         reply_markup=keyboard,  # Use the created keyboard
         protect_content=True if pre == 'filep' else False,
         )
-    print(f'File sent to : {SELECTED_CHANNEL}')
+    # print(f'File sent to : {SELECTED_CHANNEL}')
     invite_link = await client.create_chat_invite_link(int(SELECTED_CHANNEL))
     lazy_invite_url = invite_link.invite_link
-    print(lazy_invite_url)
+    # print(lazy_invite_url)
 
     message_link = await client.get_messages(int(SELECTED_CHANNEL), lazy_file.id)
     file_link = message_link.link
-    print(file_link)
+    # print(file_link)
     try:
         member = await client.get_chat_member(SELECTED_CHANNEL, message.from_user.id)
-        print(member)
-        if member.status != enums.ChatMemberStatus.MEMBER:
+        # print(member)
+        if member.status != enums.ChatMemberStatus.MEMBER or member.status != enums.ChatMemberStatus.ADMINISTRATOR or member.status != enums.ChatMemberStatus.OWNER:
             fussx = await client.send_message(
             chat_id=message.from_user.id,
             text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
             )
-            print(f'User is not subscribed: Got url => {lazy_invite_url}')
+            # print(f'User is not subscribed: Got url => {lazy_invite_url}')
         else:
             fasss = await client.send_message(
             chat_id=message.from_user.id,
             text=f"🎉You're already a channel member🎊\n\nHere is your direct download link 👇\n\n {file_link} \n\n❤Thank you for staying with the channel, {message.from_user.mention}❤"
             )
-            print(f'User is subscribed: Got LINK => {file_link}')
+            # print(f'User is subscribed: Got LINK => {file_link}')
     except UserNotParticipant:
         fassx = await client.send_message(
             chat_id=message.from_user.id,
             text=f"🎉 File Uploaded here ✅\n\nHere is the channel link - Join & Get file 👇\n\n **{lazy_invite_url}**\n\n⚠Note: Dear {message.from_user.mention}, if you stay subscribed to the channel, you will receive direct links next time ❤"
         )
-        print(f'User is not subscribed: Got url => {lazy_invite_url}')
+        # print(f'User is not subscribed: Got url => {lazy_invite_url}')
     
        
     # if SELECTED_CHANNEL and not await is_subscribed(client, message):
@@ -704,7 +704,7 @@ async def start(client, message):
     #             ]]
     # lzzz = await client.send_message(chat_id = message.from_user.id, text=f"<b>⚠ <u>warning ⚠</u> </b>\n\n<b>ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ</b> <b><u>30 ᴍɪɴᴜᴛᴇꜱ</u> </b><b>(ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪꜱꜱᴜᴇꜱ).</b>\n\n<b><i>📌 ᴘʟᴇᴀꜱᴇ ꜰᴏʀᴡᴀʀᴅ ᴛʜɪꜱ ᴠɪᴅᴇᴏ / ꜰɪʟᴇ ᴛᴏ ꜱᴏᴍᴇᴡʜᴇʀᴇ ᴇʟꜱᴇ ᴀɴᴅ ꜱᴛᴀʀᴛ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴇʀᴇ.</i></b>")
     await asyncio.sleep(600)
-    print('reached auto delete lazyfile')
+    # print('reached auto delete lazyfile')
 
     await lazy_file.delete()
     await fussx.delete()
@@ -867,74 +867,78 @@ async def settings(client, message):
     else:
         pass
     if settings is not None:
-        buttons = [
-            [
-                InlineKeyboardButton('URL Mode',
-                                     callback_data=f'setgs#url_mode#{settings["url_mode"]}#{str(grp_id)}'),
-                InlineKeyboardButton('✅ Yes' if settings["url_mode"] else '❌ No',
-                                         callback_data=f'setgs#url_mode#{settings["url_mode"]}#{str(grp_id)}')
-            ],[
-                InlineKeyboardButton(
-                    'Filter Button',
-                    callback_data=f'setgs#button#{settings["button"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    'Single' if settings["button"] else 'Double',
-                    callback_data=f'setgs#button#{settings["button"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    'Bot PM',
-                    callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["botpm"] else '❌ No',
-                    callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    'File Secure',
-                    callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["file_secure"] else '❌ No',
-                    callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    'IMDB',
-                    callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["imdb"] else '❌ No',
-                    callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    'Spell Check',
-                    callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["spell_check"] else '❌ No',
-                    callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}',
-                ),
-            ],
-            [
-                InlineKeyboardButton(
-                    'Welcome',
-                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
-                ),
-                InlineKeyboardButton(
-                    '✅ Yes' if settings["welcome"] else '❌ No',
-                    callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
-                ),
-            ],
-        ]
-
+        if message.from_user.id in ADMINS:
+            buttons = [
+                [
+                    InlineKeyboardButton('URL Mode',
+                                        callback_data=f'setgs#url_mode#{settings["url_mode"]}#{str(grp_id)}'),
+                    InlineKeyboardButton('✅ Yes' if settings["url_mode"] else '❌ No',
+                                            callback_data=f'setgs#url_mode#{settings["url_mode"]}#{str(grp_id)}')
+                ],[
+                    InlineKeyboardButton(
+                        'Filter Button',
+                        callback_data=f'setgs#button#{settings["button"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        'Single' if settings["button"] else 'Double',
+                        callback_data=f'setgs#button#{settings["button"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'Bot PM',
+                        callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["botpm"] else '❌ No',
+                        callback_data=f'setgs#botpm#{settings["botpm"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'File Secure',
+                        callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["file_secure"] else '❌ No',
+                        callback_data=f'setgs#file_secure#{settings["file_secure"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'IMDB',
+                        callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["imdb"] else '❌ No',
+                        callback_data=f'setgs#imdb#{settings["imdb"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'Spell Check',
+                        callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["spell_check"] else '❌ No',
+                        callback_data=f'setgs#spell_check#{settings["spell_check"]}#{grp_id}',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        'Welcome',
+                        callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                    ),
+                    InlineKeyboardButton(
+                        '✅ Yes' if settings["welcome"] else '❌ No',
+                        callback_data=f'setgs#welcome#{settings["welcome"]}#{grp_id}',
+                    ),
+                ],
+            ]
+        else:
+            buttons = [
+                [InlineKeyboardButton("Contact Developer", url=f"https://t.me/LazyDeveloperr")]
+            ]
         reply_markup = InlineKeyboardMarkup(buttons)
 
         await message.reply_text(
