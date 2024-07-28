@@ -10,7 +10,7 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import *
 #5 => verification_steps ! [Youtube@LazyDeveloperr]
-from utils import check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
+from utils import  create_lazy_channel,delete_lazy_channel,check_verification, get_token, verify_user, check_token, get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
 import pytz
 import datetime
@@ -245,8 +245,21 @@ async def start(client, message):
             except Exception as e:
                 print(f"Exception occured : {str(e)}")
             # ./check verfication end
+            
+            try:
+                lazyChannel = await create_lazy_channel()
+                lazy_channel_id = lazyChannel.chats[0].id
+            except Exception as e:
+                print(e)
 
             try:
+                await client.send_cached_media(
+                    chat_id=lazy_channel_id,
+                    file_id=msg.get("file_id"),
+                    caption=f_caption,
+                    protect_content=msg.get('protect', False),
+                    )
+                await asyncio.sleep(2)
                 await client.send_cached_media(
                     chat_id=message.from_user.id,
                     file_id=msg.get("file_id"),

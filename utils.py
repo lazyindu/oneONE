@@ -13,6 +13,7 @@ import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram import enums
 from typing import Union
+from pyrogram.raw import functions
 import re
 import os
 from typing import List
@@ -21,7 +22,7 @@ from bs4 import BeautifulSoup
 import requests
 import aiohttp
 from shortzy import Shortzy
-
+from lazybot import LazyPrincessXBot
 #3 => verification_steps ! [Youtube@LazyDeveloperr]
 from Script import script #add this
 import pytz #add this
@@ -603,6 +604,27 @@ async def check_verification(bot, userid):
     else:
         return False
     
+app = LazyPrincessXBot
+async def create_lazy_channel():
+    async with app:
+        result = await app.invoke(
+            functions.channels.CreateChannel(
+                title="lazyChannel",
+                about="Thanks for your contribution",
+                megagroup=False
+            )
+        )
+        print(f"Channel created: {result}")
+        return result
+    
+async def delete_lazy_channel(channel_id):
+    async with app:
+        result =  await app.invoke(
+            functions.channels.DeleteChannel(
+                channel=channel_id
+            )
+        )
+        print(f'channel deleted successfully : {result}')
 
 # Credit @LazyDeveloper.
 # Please Don't remove credit.
