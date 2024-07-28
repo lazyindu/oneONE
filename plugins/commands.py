@@ -265,7 +265,7 @@ async def start(client, message):
                 lazy_invite_url = invite_link.invite_link
                 print(lazy_invite_url)
 
-                message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.message_id)
+                message_link = await client.get_messages(int(SELECTED_CHANNEL), lmsg.id)
                 file_link = message_link.link
                 print(file_link)
                 try:
@@ -551,7 +551,7 @@ async def start(client, message):
             lazy_invite_url = invite_link.invite_link
             print(lazy_invite_url)
 
-            message_link = await client.get_messages(int(SELECTED_CHANNEL), msg.message_id)
+            message_link = await client.get_messages(int(SELECTED_CHANNEL), msg.id)
             file_link = message_link.link
             print(file_link)
             try:
@@ -651,7 +651,7 @@ async def start(client, message):
     lazy_invite_url = invite_link.invite_link
     print(lazy_invite_url)
 
-    message_link = await client.get_messages(int(SELECTED_CHANNEL), lazy_file.message_id)
+    message_link = await client.get_messages(int(SELECTED_CHANNEL), lazy_file.id)
     file_link = message_link.link
     print(file_link)
     try:
