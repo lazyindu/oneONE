@@ -16,6 +16,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ForceRepl
 async def refunc(client, message):
     try:
         if (message.reply_to_message.reply_markup) and isinstance(message.reply_to_message.reply_markup, ForceReply):
+            reply_message = message.reply_to_message
             new_name = message.text
             await message.delete()
             media = await client.get_messages(message.chat.id, message.reply_to_message.id)
@@ -24,7 +25,7 @@ async def refunc(client, message):
             types = file.mime_type.split("/")
             mime = types[0]
             mg_id = media.reply_to_message.id
-            await message.reply_to_message.delete()
+            await reply_message.delete()
             try:
                 if not "." in new_name:
                     if "." in media.file_name:
