@@ -24,12 +24,12 @@ async def refunc(client, message):
             types = file.mime_type.split("/")
             mime = types[0]
             mg_id = media.reply_to_message.id
+            await message.reply_to_message.delete()
             try:
                 out = new_name.split(".")
                 out[1]
                 out_name = out[-1]
                 out_filename = new_name
-                await message.reply_to_message.delete()
                 if mime == "video":
                     markup = InlineKeyboardMarkup([[
                         InlineKeyboardButton("📁 Document", callback_data="upload_document"),
